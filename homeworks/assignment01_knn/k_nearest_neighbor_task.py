@@ -1,7 +1,9 @@
 import numpy as np
+"""
+Credits: the original code belongs to Stanford CS231n course assignment1. Source link: http://cs231n.github.io/assignments2019/assignment1/
+"""
 
-
-class KNearestNeighbor(object):
+class KNearestNeighbor:
     """ a kNN classifier with L2 distance """
 
     def __init__(self):
@@ -43,7 +45,7 @@ class KNearestNeighbor(object):
         elif num_loops == 2:
             dists = self.compute_distances_two_loops(X)
         else:
-            raise ValueError("Invalid value %d for num_loops" % num_loops)
+            raise ValueError('Invalid value %d for num_loops' % num_loops)
 
         return self.predict_labels(dists, k=k)
 
@@ -74,8 +76,6 @@ class KNearestNeighbor(object):
                 #####################################################################
                 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-                dists[i,j] = np.sqrt(np.sum(np.square(X[i] - self.X_train[j])))
-
                 # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
 
@@ -97,8 +97,6 @@ class KNearestNeighbor(object):
             # Do not use np.linalg.norm().                                        #
             #######################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-            dists[i, :] = np.sqrt(np.sum(np.square(X[i] - self.X_train), axis=1))
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
@@ -128,11 +126,6 @@ class KNearestNeighbor(object):
         #########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        # want (num_test x num_train)
-        dists = np.sqrt(-2 * X @ self.X_train.T + \
-                np.expand_dims(np.sum(np.square(X), axis=1), -1) + \
-                np.expand_dims(np.sum(np.square(self.X_train), axis=1), -1).T)
-
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return dists
 
@@ -154,7 +147,6 @@ class KNearestNeighbor(object):
         for i in range(num_test):
             # A list of length k storing the labels of the k nearest neighbors to
             # the ith test point.
-            closest_y = []
             #########################################################################
             # TODO:                                                                 #
             # Use the distance matrix to find the k nearest neighbors of the ith    #
@@ -163,8 +155,6 @@ class KNearestNeighbor(object):
             # Hint: Look up the function numpy.argsort.                             #
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-            closest_y = self.y_train[np.argsort(dists[i, :])[:k]]
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
             #########################################################################
@@ -176,7 +166,6 @@ class KNearestNeighbor(object):
             #########################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-            y_pred[i] = np.argmax(np.bincount(closest_y))
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
